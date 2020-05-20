@@ -7,7 +7,8 @@ RUN \
 
 
 
-
+RUN apt install -y software-properties-common
+RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get install -y build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev
 RUN apt-get install -y python3-pip python3.7-dev
 RUN apt-get install -y python3.7

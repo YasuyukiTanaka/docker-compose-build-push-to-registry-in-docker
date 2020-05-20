@@ -4,8 +4,8 @@ inputs:
   service-name:
     description: 'docker-compose build service'
     required: true
-  push-name:
-    description: 'docker-compose push to name'
+  push-suffix:
+    description: 'docker-compose push to suffix name'
     required: true
   working-directory:
     description: 'docker-compose execute directory'
@@ -16,6 +16,6 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.service-name }}
-    - ${{ inputs.push-name }}
+    - ${{ inputs.push-suffix }}
     - ${{ inputs.working-directory }}
 

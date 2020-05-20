@@ -14,8 +14,10 @@ if [ $? -ne 0 ];then
 fi
 imageName=$(cat output.txt  | grep -E 'Successfully tagged ([a-z:_]+)'| sed 's/Successfully tagged //')
 $(aws ecr get-login --region ap-northeast-1 --no-include-email)
-account=$(aws sts get-caller-identity --query Account --output text)
+#account=$(aws sts get-caller-identity --query Account --output text)
+account=998292530266
 pushName=push_target_api="${account}.dkr.ecr.ap-northeast-1.amazonaws.com/${pushSuffix}"
+#**.dkr.ecr.ap-northeast-1.amazonaws.com/bdk_cloud/ms_cloud_path_planner/api
 #dkr.ecr.ap-northeast-1.amazonaws.com/bdk_cloud/ms_cloud_path_planner/api
 docker tag ${imageName} ${pushName}
 if [ $? -ne 0 ];then

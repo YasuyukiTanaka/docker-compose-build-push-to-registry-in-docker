@@ -7,14 +7,14 @@ RUN \
 
 # install python3.6
 RUN apt-get install -y software-properties-common
-RUN add-apt-repository ppa:jonathonf/python-3.6
+RUN add-apt-repository ppa:jonathonf/python-3.7
 
 RUN apt-get update \
-  && apt-get install python3.6 python3.6-dev python3-pip make curl git sudo cron -y \
+  && apt-get install python3.7 python3.7-dev python3-pip make curl git sudo cron -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && cd /usr/local/bin \
-  && ln -s /usr/bin/python3.6 python
+  && ln -s /usr/bin/python3.7 python
 
 
 

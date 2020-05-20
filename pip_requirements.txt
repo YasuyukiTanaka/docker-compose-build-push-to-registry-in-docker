@@ -1,0 +1,3 @@
+awscli
+docker
+docker-compose==1.19.0

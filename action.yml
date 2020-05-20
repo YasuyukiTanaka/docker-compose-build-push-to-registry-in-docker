@@ -1,0 +1,21 @@
+name: 'docker-compose build & push to registry'
+description: 'docker-compose build , push and push to registry'
+inputs:
+  service-name:
+    description: 'docker-compose build service'
+    required: true
+  push-name:
+    description: 'docker-compose push to name'
+    required: true
+  working-directory:
+    description: 'docker-compose execute directory'
+    required: false
+    default: '.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.service-name }}
+    - ${{ inputs.push-name }}
+    - ${{ inputs.working-directory }}
+

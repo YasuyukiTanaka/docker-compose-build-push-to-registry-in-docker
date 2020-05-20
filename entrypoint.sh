@@ -24,7 +24,7 @@ imageName=$(cat output.txt  | grep -E 'Successfully tagged ([a-z:_]+)'| sed 's/S
 AUTH_DATA=$(aws ecr get-authorization-token)
 TOKEN=$(echo $AUTH_DATA | jq -r ".authorizationData[0].authorizationToken" | base64 --decode | awk -F":" '{ print $2 }')
 ENDPOINT=$(echo $AUTH_DATA | jq -r ".authorizationData[0].proxyEndpoint")
-REGISTRY=$(echo $ENDPOINT | sed 's/https\?://')
+REGISTRY=$(echo $ENDPOINT | sed 's/https\?:\/\///')
 echo "REGISTRY $REGISTRY"
 docker login -u AWS -p $TOKEN $ENDPOINT
 

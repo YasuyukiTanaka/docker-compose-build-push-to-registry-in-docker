@@ -14,7 +14,15 @@ if [ $? -ne 0 ];then
 fi
 imageName=$(cat output.txt  | grep -E 'Successfully tagged ([a-z:_]+)'| sed 's/Successfully tagged //')
 docker tag ${imageName} ${pushName}
+if [ $? -ne 0 ];then
+  echo "failed docker tag"
+  exit 1
+fi
 docker push ${pushName}
+if [ $? -ne 0 ];then
+  echo "failed docker push"
+  exit 1
+fi
 
 echo "Done"
 

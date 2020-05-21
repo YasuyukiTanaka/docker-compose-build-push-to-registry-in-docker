@@ -14,7 +14,7 @@ inputs:
   tag:
     description: 'ecr repository tag'
     required: true
-  working-directory:
+  work-directory:
     description: 'docker-compose execute directory'
     required: false
     default: '.'
@@ -26,5 +26,5 @@ runs:
     - ${{ inputs.docker-compose-yaml }}
     - ${{ inputs.repository }}
     - ${{ inputs.tag }}
-    - ${{ inputs.working-directory }}
+    - ${{ inputs.work-directory }}
 

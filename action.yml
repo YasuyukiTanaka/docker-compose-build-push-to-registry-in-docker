@@ -4,6 +4,10 @@ inputs:
   service-name:
     description: 'docker-compose build service'
     required: true
+  docker-compose-yaml:
+    description: 'docker-compose yml file name'
+    required: false
+    default: 'docker-compose.yml'
   repository:
     description: 'ecr repository name'
     required: true
@@ -19,6 +23,7 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.service-name }}
+    - ${{ inputs.docker-compose-yaml }}
     - ${{ inputs.repository }}
     - ${{ inputs.tag }}
     - ${{ inputs.working-directory }}

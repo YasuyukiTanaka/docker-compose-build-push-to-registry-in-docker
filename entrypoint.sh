@@ -1,25 +1,21 @@
 #!/bin/bash
 
 
-serviceName=$1
-repository=$2
-TAG=$3
-workingDirectory=$4
+SERVICE_NAME=$1
+COMPOSE_YAML=$2
+REPOSITORY=$3
+TAG=$4
+WORK_DIRECTORY=$5
 
-cd ${GITHUB_WORKSPACE}/${workingDirectory}
-docker-compose -f ./docker-compose.yml build ${serviceName} >output.txt
+cd ${GITHUB_WORKSPACE}/${WORK_DIRECTORY}
+docker-compose -f ${COMPOSE_YAML} build ${SERVICE_NAME} >output.txt
 
 if [ $? -ne 0 ];then
   echo "failed docker-compose"
   exit 1
 fi
-imageName=$(cat output.txt  | grep -E 'Successfully tagged ([a-z:_]+)'| sed 's/Successfully tagged //')
-#$(aws ecr get-login --region ap-northeast-1 --no-include-email)
-#account=$(aws sts get-caller-identity --query Account --output text)
-#account=998292530266
-#pushName="${account}.dkr.ecr.ap-northeast-1.amazonaws.com/${pushSuffix}"
-#**.dkr.ecr.ap-northeast-1.amazonaws.com/bdk_cloud/ms_cloud_path_planner/api
-#dkr.ecr.ap-northeast-1.amazonaws.com/bdk_cloud/ms_cloud_path_planner/api
+IMAGE_NAME=$(cat output.txt  | grep -E 'Successfully tagged ([a-z:_]+)'| sed 's/Successfully tagged //')
+rm output.txt
 
 AUTH_DATA=$(aws ecr get-authorization-token)
 TOKEN=$(echo $AUTH_DATA | jq -r ".authorizationData[0].authorizationToken" | base64 --decode | awk -F":" '{ print $2 }')
@@ -29,12 +25,11 @@ echo "REGISTRY $REGISTRY"
 docker login -u AWS -p $TOKEN $ENDPOINT
 
 
-echo "imageName ${imageName}"
-echo "pushName ${pushName}"
-PUSH_NAME=${REGISTRY}/${repository}:${TAG}
+echo "IMAGE_NAME ${IMAGE_NAME}"
+PUSH_NAME=${REGISTRY}/${REPOSITORY}:${TAG}
 echo "PUSH_NAME ${PUSH_NAME}"
 
-docker tag ${imageName} ${PUSH_NAME}
+docker tag ${IMAGE_NAME} ${PUSH_NAME}
 if [ $? -ne 0 ];then
   echo "failed docker tag"
   exit 1
